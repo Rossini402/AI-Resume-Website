@@ -2,4 +2,5 @@
 .playwright-mcp/
 *.png
 project/scraps/
-project/uploads/pasted-*.txt
+project/uploads/
+project/resume/pdf-data.js
