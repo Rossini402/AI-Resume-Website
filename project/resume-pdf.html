@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>简历 · XXX (PDF)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --fg: #111;
+    --fg-2: #333;
+    --fg-3: #555;
+    --fg-4: #888;
+    --rule: #222;
+    --rule-2: #bbb;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #eaeaea; color: var(--fg); }
+  body {
+    font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .toolbar {
+    position: fixed;
+    top: 14px; left: 14px;
+    display: flex; gap: 6px;
+    z-index: 100;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+  }
+  .toolbar a, .toolbar button {
+    padding: 6px 12px;
+    background: #111;
+    color: #fafafa;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+  }
+  .toolbar a:hover, .toolbar button:hover { background: #000; }
+  .toolbar .ghost {
+    background: #fff;
+    color: #111;
+    border: 1px solid #ccc;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 24px auto;
+    background: #fff;
+    padding: 18mm 18mm 18mm 18mm;
+    box-shadow: 0 2px 18px rgba(0,0,0,0.12);
+    color: var(--fg);
+  }
+
+  /* === Header === */
+  .r-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: end;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--rule);
+    margin-bottom: 14px;
+  }
+  .r-name {
+    font-family: "Noto Serif SC", serif;
+    font-size: 26pt;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin: 0;
+  }
+  .r-title {
+    font-size: 10.5pt;
+    color: var(--fg-2);
+    margin-top: 4px;
+  }
+  .r-contact {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9pt;
+    color: var(--fg-2);
+    text-align: right;
+    line-height: 1.7;
+  }
+  .r-contact .k { color: var(--fg-4); display: inline-block; width: 42px; }
+
+  /* === Section === */
+  .r-sec { margin-top: 14px; break-inside: avoid-page; }
+  .r-sec:first-of-type { margin-top: 10px; }
+  .r-sec-title {
+    font-family: "Noto Serif SC", serif;
+    font-size: 12pt;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin: 0 0 8px 0;
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .r-sec-title .en {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 8.5pt;
+    font-weight: 500;
+    color: var(--fg-4);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-left: auto;
+  }
+
+  /* summary bullets */
+  ul.r-ul {
+    margin: 0;
+    padding-left: 16px;
+    list-style: none;
+  }
+  ul.r-ul > li {
+    position: relative;
+    padding-left: 10px;
+    margin-bottom: 3px;
+  }
+  ul.r-ul > li::before {
+    content: "▪";
+    position: absolute;
+    left: -2px;
+    color: var(--fg);
+    font-size: 8pt;
+    top: 2px;
+  }
+
+  /* skills table */
+  .r-skills { display: flex; flex-direction: column; gap: 3px; }
+  .r-skill-row {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 8px;
+    padding: 3px 0;
+    border-bottom: 1px dotted var(--rule-2);
+  }
+  .r-skill-row:last-child { border-bottom: none; }
+  .r-skill-cat {
+    font-weight: 600;
+    color: var(--fg);
+    font-size: 9.5pt;
+  }
+  .r-skill-items {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9pt;
+    color: var(--fg-2);
+    line-height: 1.7;
+  }
+
+  /* AI native */
+  .r-ai-list { display: flex; flex-direction: column; gap: 5px; }
+  .r-ai-list > div {
+    display: grid;
+    grid-template-columns: 78px 1fr;
+    gap: 10px;
+    padding: 3px 0;
+  }
+  .r-ai-list .k {
+    font-weight: 600;
+    color: var(--fg);
+    font-size: 9.5pt;
+  }
+  .r-ai-list .v {
+    color: var(--fg-2);
+    font-size: 9.5pt;
+  }
+
+  /* projects */
+  .r-proj { margin-bottom: 10px; break-inside: avoid-page; }
+  .r-proj-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 3px;
+  }
+  .r-proj-name {
+    font-weight: 700;
+    font-size: 11pt;
+    color: var(--fg);
+  }
+  .r-proj-role {
+    font-size: 9pt;
+    color: var(--fg-3);
+  }
+  .r-proj-role::before { content: "| "; color: var(--fg-4); }
+  .r-proj-ai-badge {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 7.5pt;
+    background: #111;
+    color: #fff;
+    padding: 1px 5px;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+  }
+  .r-proj-scale {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 8.5pt;
+    color: var(--fg-3);
+    margin-bottom: 3px;
+  }
+  .r-proj-stack {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 8.5pt;
+    color: var(--fg-2);
+    margin-bottom: 5px;
+    line-height: 1.6;
+  }
+  .r-proj-stack .label { color: var(--fg-4); margin-right: 4px; }
+  .r-proj-sub-t {
+    font-weight: 600;
+    font-size: 9.5pt;
+    color: var(--fg);
+    margin: 5px 0 2px;
+  }
+  .r-proj-sub-t::before { content: "▸ "; color: var(--fg-3); }
+
+  /* edu */
+  .r-edu {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: baseline;
+    font-size: 10pt;
+  }
+  .r-edu .period { font-family: "JetBrains Mono", monospace; font-size: 9pt; color: var(--fg-3); }
+
+  /* footer note */
+  .r-footer {
+    margin-top: 18px;
+    padding-top: 8px;
+    border-top: 1px solid var(--rule-2);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 8pt;
+    color: var(--fg-4);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* === Typewriter loader === */
+  .pdf-loader {
+    position: fixed; inset: 0;
+    background: #0d0d0d;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pdfLoaderOut 0.5s ease 2.6s forwards;
+  }
+  @keyframes pdfLoaderOut {
+    to { opacity: 0; visibility: hidden; }
+  }
+  .pdf-loader-box {
+    width: min(640px, 90vw);
+    background: #141414;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  }
+  .pdf-loader-bar {
+    display: flex; align-items: center; gap: 6px;
+    padding: 10px 14px;
+    background: #1a1a1a;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .pdf-loader-bar .d { width: 11px; height: 11px; border-radius: 50%; }
+  .pdf-loader-bar .d.r { background: #ff5f57; }
+  .pdf-loader-bar .d.y { background: #febc2e; }
+  .pdf-loader-bar .d.g { background: #28c840; }
+  .pdf-loader-path {
+    margin-left: 12px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+    color: #888;
+  }
+  .pdf-loader-body {
+    padding: 22px 24px 26px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    color: #e8e8e8;
+    line-height: 2;
+    min-height: 180px;
+  }
+  .pdf-loader-body .pl-line { display: flex; gap: 10px; }
+  .pdf-loader-body .pl-prompt { color: oklch(0.72 0.14 150); }
+  .pdf-loader-body .pl-muted { color: #9ca3af; }
+  .pdf-loader-body .pl-caret {
+    display: inline-block; width: 7px; height: 14px;
+    background: oklch(0.72 0.14 150);
+    margin-left: 2px;
+    animation: plBlink 1s steps(2) infinite;
+    transform: translateY(2px);
+  }
+  @keyframes plBlink { 50% { opacity: 0; } }
+
+  @media print {
+    html, body { background: #fff; }
+    .toolbar, .pdf-loader { display: none !important; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      padding: 16mm 16mm;
+      width: 210mm;
+      min-height: 0;
+    }
+    @page { size: A4; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button onclick="doPrint()">⎙ 打印 / 保存为 PDF</button>
+  <a href="resume-website.html" class="ghost">← 返回网站版</a>
+</div>
+
+<!-- full-screen typewriter loader -->
+<div id="pdf-loader" class="pdf-loader">
+  <div class="pdf-loader-box">
+    <div class="pdf-loader-bar">
+      <span class="d r"></span><span class="d y"></span><span class="d g"></span>
+      <span class="pdf-loader-path">~/resume/XXX.pdf</span>
+    </div>
+    <div class="pdf-loader-body" id="pdf-loader-body"></div>
+  </div>
+</div>
+
+<script>
+  function doPrint() {
+    // open a fresh printable window to avoid sandboxed-preview token restrictions
+    const w = window.open("", "_blank");
+    if (!w) { window.print(); return; }
+    w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>简历 · XXX</title></head><body></body></html>');
+    w.document.close();
+    const clone = document.getElementById("page").cloneNode(true);
+    const styles = document.querySelectorAll("style, link[rel=stylesheet]");
+    styles.forEach(s => w.document.head.appendChild(s.cloneNode(true)));
+    w.document.body.appendChild(clone);
+    w.document.body.style.background = "#fff";
+    setTimeout(() => { w.focus(); w.print(); }, 400);
+  }
+</script>
+
+<article class="page" id="page">
+  <header class="r-head">
+    <div>
+      <h1 class="r-name" id="r-name"></h1>
+      <div class="r-title" id="r-title"></div>
+    </div>
+    <div class="r-contact" id="r-contact"></div>
+  </header>
+
+  <section class="r-sec">
+    <h2 class="r-sec-title">个人概述 <span class="en">summary</span></h2>
+    <ul class="r-ul" id="r-summary"></ul>
+  </section>
+
+  <section class="r-sec">
+    <h2 class="r-sec-title">AI Native 工作方式 <span class="en">ai-native methodology</span></h2>
+    <div class="r-ai-list" id="r-ai"></div>
+  </section>
+
+  <section class="r-sec">
+    <h2 class="r-sec-title">专业技能 <span class="en">skills</span></h2>
+    <div class="r-skills" id="r-skills"></div>
+  </section>
+
+  <section class="r-sec">
+    <h2 class="r-sec-title">AI-Native 项目 <span class="en">ai-native projects</span></h2>
+    <div id="r-ai-proj"></div>
+  </section>
+
+  <section class="r-sec">
+    <h2 class="r-sec-title">工作项目经历 <span class="en">work projects</span></h2>
+    <div id="r-work"></div>
+  </section>
+
+  <section class="r-sec">
+    <h2 class="r-sec-title">教育背景 <span class="en">education</span></h2>
+    <div class="r-edu" id="r-edu"></div>
+  </section>
+
+  <div class="r-footer">
+    <span id="r-footer-github"></span>
+    <span>Built with HTML · Print to PDF</span>
+  </div>
+</article>
+
+<script src="resume/md-parser.js"></script>
+<script>
+  // 从 Markdown 加载简历数据，然后渲染
+  fetch('uploads/简历.md')
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(function (md) {
+      window.RESUME_DATA = window.parseResumeMd(md);
+      // 加载渲染器
+      var s = document.createElement('script');
+      s.src = 'resume/pdf-render.js';
+      document.body.appendChild(s);
+    })
+    .catch(function (err) { console.error('简历加载失败:', err); });
+</script>
+<script>
+  // Typewriter loader
+  (function () {
+    const lines = [
+      { prompt: "$", text: "cat ~/resume/XXX.pdf" },
+      { prompt: ">", text: "loading resume...", muted: true },
+      { prompt: "$", text: "render --format=a4 --ink=black" },
+      { prompt: ">", text: "ready ✓", muted: true },
+    ];
+    const body = document.getElementById("pdf-loader-body");
+    let li = 0, ci = 0;
+    let curLine = null, curText = null, curCaret = null;
+
+    function newLine() {
+      const row = document.createElement("div");
+      row.className = "pl-line";
+      const p = document.createElement("span");
+      p.className = "pl-prompt";
+      p.textContent = lines[li].prompt;
+      const t = document.createElement("span");
+      t.className = lines[li].muted ? "pl-muted" : "";
+      const caret = document.createElement("span");
+      caret.className = "pl-caret";
+      row.appendChild(p); row.appendChild(t); row.appendChild(caret);
+      body.appendChild(row);
+      curLine = row; curText = t; curCaret = caret;
+    }
+
+    function tick() {
+      if (li >= lines.length) return;
+      if (!curLine) newLine();
+      const line = lines[li].text;
+      if (ci < line.length) {
+        curText.textContent += line[ci];
+        ci++;
+        setTimeout(tick, 22 + Math.random() * 30);
+      } else {
+        if (li < lines.length - 1) curCaret.remove();
+        li++; ci = 0; curLine = null;
+        setTimeout(tick, 180);
+      }
+    }
+    newLine(); tick();
+
+    // Remove loader from DOM after animation completes
+    setTimeout(() => {
+      const el = document.getElementById("pdf-loader");
+      if (el) el.remove();
+    }, 3400);
+  })();
+</script>
+</body>
+</html>
