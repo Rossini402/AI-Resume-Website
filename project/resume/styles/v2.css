@@ -300,3 +300,19 @@
   .ide-side-head, .ide-folder-name, .ide-meta-list { padding-left: 10px; padding-right: 10px; }
   .ide-file { padding-left: 20px; }
 }
+
+/* 手机端：隐藏活动栏和侧边栏，只保留编辑器 */
+@media (max-width: 640px) {
+  .v2 { padding: 0; font-size: 12px; }
+  .ide-chrome { border-radius: 0; min-height: 100vh; }
+  .ide-body { grid-template-columns: 1fr; }
+  .ide-activity, .ide-side { display: none; }
+  .ide-title-path { font-size: 10.5px; }
+  .ide-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .ide-tab { padding: 6px 10px; font-size: 10.5px; white-space: nowrap; }
+  .ide-breadcrumb { padding: 4px 12px; font-size: 10px; }
+  .ide-line { grid-template-columns: 36px 1fr; padding-right: 12px; }
+  .ide-ln { padding-right: 8px; font-size: 10.5px; }
+  .ide-code { padding: 10px 0; }
+  .ide-status { font-size: 9.5px; padding: 0 10px; }
+}

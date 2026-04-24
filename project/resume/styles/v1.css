@@ -562,3 +562,15 @@ body {
   .skill-row { grid-template-columns: 1fr; gap: 8px; }
   .edu-row { grid-template-columns: 1fr; gap: 4px; }
 }
+
+/* 手机端细节优化 */
+@media (max-width: 480px) {
+  .v1 .side { padding: var(--space-4); }
+  .v1 .main { padding: var(--space-4); }
+  .ident-name { font-size: 24px; }
+  .sec-title { font-size: 20px; }
+  .hero-term-body { padding: 14px 16px; font-size: 12px; min-height: 180px; }
+  .proj { padding: var(--space-4); }
+  .proj-name { font-size: 16px; }
+  .proj-head { flex-wrap: wrap; }
+}
