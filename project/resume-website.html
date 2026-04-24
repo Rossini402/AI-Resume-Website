@@ -4,9 +4,12 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>简历 · XXX — AI Native 工程师</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<meta name="description" content="AI Native 前端工程师简历 — 以 AI-Native 方式驱动前端工程，Claude Code 深度用户，覆盖 10+ 项目的人-AI 协作体系。">
+<meta property="og:title" content="XXX — AI Native 前端工程师">
+<meta property="og:description" content="以 AI-Native 方式驱动前端工程，Claude Code 深度用户，覆盖 10+ 项目的人-AI 协作体系。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resume/styles/v1.css"/>
 <link rel="stylesheet" href="resume/styles/v2.css"/>
 
@@ -68,6 +71,22 @@
   }
   @keyframes bootBlink { 50% { opacity: 0; } }
 
+  .boot-skip {
+    position: absolute;
+    bottom: 20px;
+    right: 24px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: #555;
+    background: transparent;
+    border: 1px solid #333;
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .boot-skip:hover { color: #aaa; border-color: #555; }
+
   /* variant switcher pill */
   .variant-switch {
     position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
@@ -118,6 +137,11 @@
 
   .view { display: none; }
   .view.active { display: block; }
+
+  @media (max-width: 480px) {
+    .variant-switch { font-size: 10.5px; }
+    .variant-switch button { padding: 5px 10px; }
+  }
 </style>
 
 <!-- fixed tweak defaults — host rewrites this block -->
@@ -159,6 +183,7 @@ window.TWEAK_DEFAULTS = {
     </div>
     <div class="boot-body" id="bootBody"></div>
   </div>
+  <button class="boot-skip" id="bootSkip" onclick="window.__skipBoot && window.__skipBoot()">Skip ↵</button>
 </div>
 
 <div class="variant-switch" id="variantSwitch">
@@ -200,8 +225,34 @@ window.TWEAK_DEFAULTS = {
 </script>
 
 <script>
-  // Boot typewriter loader
+  // Boot typewriter loader（二次访问自动跳过）
   (function () {
+    function dismiss() {
+      const loader = document.getElementById("bootLoader");
+      if (!loader) return;
+      loader.classList.add("out");
+      document.getElementById("variantSwitch").classList.add("ready");
+      setTimeout(() => { if (loader.parentNode) loader.remove(); }, 600);
+      try { localStorage.setItem("resume-boot-seen", "1"); } catch (e) {}
+    }
+
+    // 二次访问直接跳过
+    try {
+      if (localStorage.getItem("resume-boot-seen")) {
+        dismiss();
+        return;
+      }
+    } catch (e) {}
+
+    // Skip 按钮 + 键盘 Enter/Escape 跳过
+    window.__skipBoot = dismiss;
+    document.addEventListener("keydown", function onKey(e) {
+      if (e.key === "Enter" || e.key === "Escape") {
+        dismiss();
+        document.removeEventListener("keydown", onKey);
+      }
+    });
+
     const lines = [
       { p: "$", t: "whoami" },
       { p: ">", t: "XXX — AI Native 前端工程师", c: "muted" },
@@ -223,15 +274,9 @@ window.TWEAK_DEFAULTS = {
     }
 
     function tick() {
+      if (!document.getElementById("bootLoader")) return; // 已被 skip
       if (li >= lines.length) {
-        setTimeout(() => {
-          document.getElementById("bootLoader").classList.add("out");
-          document.getElementById("variantSwitch").classList.add("ready");
-          setTimeout(() => {
-            const el = document.getElementById("bootLoader");
-            if (el) el.remove();
-          }, 600);
-        }, 350);
+        setTimeout(dismiss, 350);
         return;
       }
       if (!row) start();
